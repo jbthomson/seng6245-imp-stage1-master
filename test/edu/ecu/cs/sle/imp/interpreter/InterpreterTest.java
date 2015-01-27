@@ -41,9 +41,6 @@ public class InterpreterTest {
 		assertEquals("5 - 2", 3, iv.getIntValue().intValue());
 	
 		
-		IntegerValue iv1 = interpreter.interpret("-5 - 5");
-		assertEquals("-5 - 5", -10, iv1.getIntValue().intValue());
-	
 	}
 
 

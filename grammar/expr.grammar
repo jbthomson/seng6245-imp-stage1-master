@@ -1,0 +1,25 @@
+%package "edu.ecu.cs.sle.imp.parser";
+%class "ExpressionParser";
+%import "edu.ecu.cs.sle.imp.ast.*";
+
+%terminals NUMBER, MULT, DIV, PLUS, MINUS, LPAREN, RPAREN;
+
+%left RPAREN;
+%right UNARY_MINUS;
+%left MULT, DIV;
+%left PLUS, MINUS;
+
+%typeof NUMBER = "Number";
+%typeof expr = "Expression";
+
+%goal expr;
+
+expr
+    = expr.a MULT  expr.b           {: return new MultExpression(a,b);   :}
+    | expr.a DIV   expr.b           {: return new DivExpression(a,b);   :}
+    | expr.a PLUS  expr.b           {: return new PlusExpression(a,b);   :}
+    | expr.a MINUS expr.b           {: return new MinusExpression(a,b);   :}
+    | LPAREN expr.e RPAREN          {: return e;                         :}
+    | MINUS expr.e @ UNARY_MINUS    {: return new UnaryMinusExpression(e);          :}
+    | NUMBER.n                      {: return new LiteralExpression(new IntegerLiteral(n.intValue())); :}
+    ;
